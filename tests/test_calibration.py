@@ -23,8 +23,12 @@ def test_bottle_matchup_match():
     btl_values = np.array([99.9])
 
     result = bottle_matchup(
-        gld_dives, gld_depth, gld_time,
-        btl_depth, btl_time, btl_values,
+        gld_dives,
+        gld_depth,
+        gld_time,
+        btl_depth,
+        btl_time,
+        btl_values,
     )
 
     # should match at index 2 (depth=30)
@@ -48,8 +52,12 @@ def test_bottle_matchup_no_match_time():
     btl_values = np.array([50.0])
 
     result = bottle_matchup(
-        gld_dives, gld_depth, gld_time,
-        btl_depth, btl_time, btl_values,
+        gld_dives,
+        gld_depth,
+        gld_time,
+        btl_depth,
+        btl_time,
+        btl_values,
     )
     # nothing should match
     assert np.all(np.isnan(result))
@@ -67,8 +75,12 @@ def test_bottle_matchup_no_match_depth():
     btl_values = np.array([50.0])
 
     result = bottle_matchup(
-        gld_dives, gld_depth, gld_time,
-        btl_depth, btl_time, btl_values,
+        gld_dives,
+        gld_depth,
+        gld_time,
+        btl_depth,
+        btl_time,
+        btl_values,
     )
     assert np.all(np.isnan(result))
 
@@ -76,6 +88,7 @@ def test_bottle_matchup_no_match_depth():
 def _fit_huber(x, y):
     """quick helper so we dont repeat the fitting boilerplate"""
     from sklearn.linear_model import HuberRegressor
+
     m = HuberRegressor(fit_intercept=False)
     m.fit(x.reshape(-1, 1), y)
     return m
@@ -88,8 +101,15 @@ def test_model_metrics_keys():
     result = model_metrics(x, y, model)
 
     # check that all the keys we expect are present
-    for k in ("model_type", "model_slope", "model_intercept",
-              "r2_all", "r2_robust", "rmse_all", "rmse_robust"):
+    for k in (
+        "model_type",
+        "model_slope",
+        "model_intercept",
+        "r2_all",
+        "r2_robust",
+        "rmse_all",
+        "rmse_robust",
+    ):
         assert k in result
 
 
@@ -107,6 +127,7 @@ def test_model_metrics_perfect_fit():
 
 def test_model_figs_returns_axes():
     import matplotlib
+
     matplotlib.use("Agg")
     from matplotlib.axes import Axes
 
